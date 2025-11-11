@@ -8,3 +8,5 @@ PLAYER_RADIUS = 20
 PLAYER_TURN_SPEED = 300  # degrees per second
 PLAYER_SPEED = 200  # pixels per second
 LINE_WIDTH = 2
+SHOT_RADIUS = 5
+PLAYER_SHOOT_SPEED = 500  # pixels per second
