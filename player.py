@@ -6,9 +6,6 @@ from constants import *
 class Player(circleshape.CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
-        self.x = x
-        self.y = y
-        self.radius = PLAYER_RADIUS
         self.rotation = 0
 
     # in the player class
