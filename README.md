@@ -2,147 +2,111 @@
 
 A classic Asteroids arcade game built with Python and Pygame.
 
-## Features
+## Description
 
-- Classic arcade-style gameplay
-- Smooth vector graphics
-- Asteroid collision detection
-- Score tracking
-- Progressive difficulty
+This is a modern implementation of the classic Asteroids arcade game where you pilot a spaceship through an asteroid field. Shoot asteroids to break them into smaller pieces and survive as long as possible!
 
-## Prerequisites
+### Features
 
-- Python 3.8 or higher
-- [uv](https://docs.astral.sh/uv/) (recommended) or pip for package management
+- Classic arcade gameplay with smooth 60 FPS performance
+- Player spaceship with rotation and movement controls
+- Asteroid spawning system with randomized trajectories
+- Collision detection between player, asteroids, and shots
+- Asteroid splitting mechanics (large asteroids break into smaller ones)
+- Built-in game state and event logging system for analysis
+
+## Requirements
+
+- Python 3.13 or higher
+- Pygame 2.6.1
 
 ## Installation
 
-### Recommended: Using uv
-
-We recommend using [uv](https://docs.astral.sh/uv/) for the best development experience. uv is an extremely fast Python package installer and resolver, written in Rust.
-
-#### Install uv
-
-**macOS and Linux:**
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-**Windows:**
-```powershell
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
-
-**With pip:**
-```bash
-pip install uv
-```
-
-#### Setup the project with uv
-
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/mammykins/asteroids.git
-   cd asteroids
-   ```
-
-2. Create a virtual environment and install dependencies:
-   ```bash
-   uv venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   uv pip install -r requirements.txt
-   ```
-
-   Or in a single command:
-   ```bash
-   uv pip install -r requirements.txt
-   ```
-
-### Alternative: Using pip
-
-If you prefer to use pip:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/mammykins/asteroids.git
-   cd asteroids
-   ```
-
-2. Create a virtual environment:
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Running the Game
-
-Once you have installed the dependencies, run the game with:
 
 ```bash
-python main.py
+git clone <repository-url>
+cd Asteroids
 ```
 
-### Game Controls
+2. Install dependencies using uv (recommended) or pip:
 
-- **Arrow Keys** or **WASD**: Rotate and thrust the ship
-- **Spacebar**: Fire
-- **ESC**: Quit game
+```bash
+# Using uv
+uv sync
+
+# Or using pip
+pip install pygame==2.6.1
+```
+
+## How to Play
+
+Run the game:
+
+```bash
+uv run main.py
+```
+
+### Controls
+
+- **W** - Move forward
+- **S** - Move backward
+- **A** - Rotate left
+- **D** - Rotate right
+- **SPACE** - Shoot
+
+Avoid colliding with asteroids while shooting them to break them apart. Large asteroids split into smaller ones when hit. The game ends when your ship collides with an asteroid.
+
+## Game Configuration
+
+You can adjust game parameters in `constants.py`:
+
+- **Screen resolution**: 1280x720 pixels
+- **Asteroid spawn rate**: 0.8 seconds
+- **Player speed**: 200 pixels/second
+- **Player turn speed**: 300 degrees/second
+- **Shot cooldown**: 0.3 seconds
+
+## Project Structure
+
+```
+.
+├── main.py              # Main game loop and initialization
+├── player.py            # Player ship class with controls
+├── asteroid.py          # Asteroid class with splitting logic
+├── asteroidfield.py     # Asteroid spawning system
+├── shot.py              # Projectile class
+├── circleshape.py       # Base class for circular game objects
+├── constants.py         # Game configuration constants
+├── logger.py            # Game state and event logging
+├── test_main.py         # Tests
+└── pyproject.toml       # Project dependencies
+```
+
+## Logging
+
+The game includes a logging system that captures:
+
+- **Game state** (`game_state.jsonl`): Snapshots of all game objects every second for the first 16 seconds
+- **Game events** (`game_events.jsonl`): Records events like asteroid hits and splits
+
+These logs are useful for debugging and analyzing gameplay.
 
 ## Development
 
-### Using uv for Development
+- Inheritance hierarchy using `CircleShape` base class
+- Sprite groups for efficient object management
+- Separation of concerns across multiple modules
+- Circle-based collision detection
 
-uv makes development faster and more efficient:
+## Testing
+
+Run tests with:
 
 ```bash
-# Install development dependencies
-uv pip install -r requirements-dev.txt
-
-# Run tests
-uv run pytest
-
-# Run linter
-uv run ruff check .
-
-# Format code
-uv run ruff format .
+python -m pytest test_main.py
 ```
-
-### Project Structure
-
-```
-asteroids/
-├── main.py              # Game entry point
-├── requirements.txt     # Production dependencies
-├── requirements-dev.txt # Development dependencies
-├── README.md           # This file
-└── src/                # Game source code
-    ├── game.py         # Main game loop
-    ├── player.py       # Player ship class
-    ├── asteroid.py     # Asteroid class
-    └── utils.py        # Utility functions
-```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## License
 
-This project is open source and available under the MIT License.
-
-## Acknowledgments
-
-- Classic Atari Asteroids game for inspiration
-- Pygame community for excellent documentation and support
+This project is open source and available for educational purposes.
