@@ -10,3 +10,4 @@ PLAYER_SPEED = 200  # pixels per second
 LINE_WIDTH = 2
 SHOT_RADIUS = 5
 PLAYER_SHOOT_SPEED = 500  # pixels per second
+PLAYER_SHOOT_COOLDOWN_SECONDS = 0.3  # in seconds
