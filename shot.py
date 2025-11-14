@@ -12,3 +12,5 @@ class Shot(circleshape.CircleShape):
 
     def update(self, dt):
         self.position += self.velocity * dt
+        # Wrap position around screen edges to create a "flat world" effect
+        self.wrap_position()

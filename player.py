@@ -54,3 +54,6 @@ class Player(circleshape.CircleShape):
             self.move(-dt)
         if keys[pygame.K_SPACE]:
             self.shoot()
+        
+        # Wrap position around screen edges to create a "flat world" effect
+        self.wrap_position()
