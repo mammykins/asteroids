@@ -60,6 +60,14 @@ def main():
                     shot.kill()
                     break  # stop checking this asteroid after it's destroyed
 
+        # shots vs player (friendly-fire)
+        # Note: shots have a brief immunity period after firing to prevent instant self-collision
+        for shot in list(shots):
+            if shot.player_immunity_timer <= 0 and player.collides_with(shot):
+                log_event("player_hit")
+                print(score.get_final_message())
+                sys.exit()
+
         screen.fill("black")
 
         for obj in drawable:

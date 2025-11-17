@@ -11,6 +11,7 @@ LINE_WIDTH = 2
 SHOT_RADIUS = 5
 PLAYER_SHOOT_SPEED = 500  # pixels per second
 PLAYER_SHOOT_COOLDOWN_SECONDS = 0.3  # in seconds
+SHOT_PLAYER_IMMUNITY_SECONDS = 0.2  # time before shot can hit the player who fired it
 
 # Scoring
 SCORE_SURVIVAL_PER_SECOND = 10  # points per second for staying alive
