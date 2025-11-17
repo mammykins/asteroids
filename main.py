@@ -5,6 +5,7 @@ from shot import Shot
 from asteroidfield import AsteroidField
 from logger import log_state
 from logger import log_event
+from score import Score
 
 import pygame
 import sys
@@ -31,6 +32,7 @@ def main():
 
     player = Player(x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2, radius=PLAYER_RADIUS)
     asteroid_field = AsteroidField()
+    score = Score()
 
     # GAME LOOP
     while True:
@@ -38,13 +40,14 @@ def main():
             if event.type == pygame.QUIT:
                 return
         log_state()
+        score.update(dt)
         updatable.update(dt)
 
         # player vs asteroids
         for asteroid in list(asteroids):
             if asteroid.collides_with(player):
                 log_event("player_hit")
-                print("Game over!")
+                print(score.get_final_message())
                 sys.exit()
 
         # shots vs asteroids (manual, circle-based)
@@ -52,14 +55,17 @@ def main():
             for shot in list(shots):
                 if asteroid.collides_with(shot):
                     log_event("asteroid_shot")
+                    score.asteroid_destroyed()
                     asteroid.split()
                     shot.kill()
-                    break  # stop checking this asteroid after it’s destroyed
+                    break  # stop checking this asteroid after it's destroyed
 
         screen.fill("black")
 
         for obj in drawable:
             obj.draw(screen)
+        
+        score.draw(screen)
 
         pygame.display.flip()
 

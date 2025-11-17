@@ -11,3 +11,9 @@ LINE_WIDTH = 2
 SHOT_RADIUS = 5
 PLAYER_SHOOT_SPEED = 500  # pixels per second
 PLAYER_SHOOT_COOLDOWN_SECONDS = 0.3  # in seconds
+
+# Scoring
+SCORE_SURVIVAL_PER_SECOND = 10  # points per second for staying alive
+SCORE_ASTEROID_DESTROYED = 100  # points for destroying an asteroid
+SCORE_SURVIVAL_BONUS = 500  # bonus points every 10 seconds
+SCORE_SURVIVAL_BONUS_INTERVAL = 10  # seconds between survival bonuses
