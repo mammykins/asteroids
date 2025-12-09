@@ -1,3 +1,7 @@
+"""
+Quick test script to verify Cthulhu mechanics
+Spawns Cthulhu at 5 seconds instead of 30 for easier testing
+"""
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -12,10 +16,14 @@ from score import Score
 import pygame
 import sys
 
+# Override spawn time for testing
+TEST_SPAWN_TIME = 5.0
+TEST_WARNING_TIME = 3.0
 
 def main():
     pygame.init()
-    print("Starting Asteroids!")
+    print("Starting Asteroids - CTHULHU TEST MODE!")
+    print(f"Cthulhu will spawn at {TEST_SPAWN_TIME} seconds")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
 
@@ -49,11 +57,12 @@ def main():
         log_state()
         score.update(dt)
         
-        # Spawn Cthulhu at 30 seconds
-        if not cthulhu_spawned and score.survival_time >= CTHULHU_SPAWN_TIME:
+        # Spawn Cthulhu at TEST_SPAWN_TIME seconds
+        if not cthulhu_spawned and score.survival_time >= TEST_SPAWN_TIME:
             cthulhu = Cthulhu(x=-CTHULHU_RADIUS, y=SCREEN_HEIGHT / 2)
             cthulhu_spawned = True
             log_event("cthulhu_spawned")
+            print(f"CTHULHU SPAWNED at {score.survival_time:.1f} seconds!")
         
         updatable.update(dt)
 
@@ -72,10 +81,9 @@ def main():
                     score.asteroid_destroyed()
                     asteroid.split()
                     shot.kill()
-                    break  # stop checking this asteroid after it's destroyed
+                    break
 
         # shots vs player (friendly-fire)
-        # Note: shots have a brief immunity period after firing to prevent instant self-collision
         for shot in list(shots):
             if shot.player_immunity_timer <= 0 and player.collides_with(shot):
                 log_event("player_hit")
@@ -88,7 +96,7 @@ def main():
                 for asteroid in list(asteroids):
                     if cthulhu.collides_with(asteroid):
                         log_event("cthulhu_asteroid_collision")
-                        asteroid.kill()  # Destroy without splitting
+                        asteroid.kill()
         
         # Cthulhu vs player - instant death
         if cthulhu_spawned:
@@ -111,19 +119,33 @@ def main():
         for tentacle in list(tentacles):
             for asteroid in list(asteroids):
                 if tentacle.collides_with_circle(asteroid):
-                    asteroid.kill()  # Destroy without splitting
+                    asteroid.kill()
 
         screen.fill("black")
 
         for obj in drawable:
             obj.draw(screen)
         
+        # Draw custom warning for test mode
+        if score.survival_time >= TEST_WARNING_TIME and score.survival_time < TEST_SPAWN_TIME:
+            import math
+            flash = (math.sin(score.survival_time * 8) + 1) / 2
+            if flash > 0.3:
+                warning_font = pygame.font.Font(None, 64)
+                warning_text = warning_font.render("SOMETHING AWAKENS...", True, (255, 0, 0))
+                text_rect = warning_text.get_rect(center=(SCREEN_WIDTH / 2, 100))
+                screen.blit(warning_text, text_rect)
+        elif score.survival_time >= TEST_SPAWN_TIME:
+            warning_font = pygame.font.Font(None, 48)
+            warning_text = warning_font.render("CTHULHU RISES!", True, CTHULHU_COLOR)
+            text_rect = warning_text.get_rect(center=(SCREEN_WIDTH / 2, 100))
+            screen.blit(warning_text, text_rect)
+        
         score.draw(screen)
 
         pygame.display.flip()
 
-        dt = clock.tick(60) / 1000  # Limit to 60 FPS and delta time
-
+        dt = clock.tick(60) / 1000
 
 if __name__ == "__main__":
     main()

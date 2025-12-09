@@ -1,4 +1,5 @@
 import pygame
+import math
 from constants import *
 
 
@@ -47,6 +48,23 @@ class Score:
         # Draw asteroid count
         asteroids_text = font.render(f"Asteroids: {self.asteroids_destroyed}", True, "green")
         screen.blit(asteroids_text, (10, 130))
+        
+        # Warning message when approaching Cthulhu spawn
+        if self.survival_time >= CTHULHU_WARNING_TIME and self.survival_time < CTHULHU_SPAWN_TIME:
+            # Flashing effect using sine wave
+            flash = (math.sin(self.survival_time * 8) + 1) / 2  # Oscillate between 0 and 1
+            if flash > 0.3:  # Only show when flash is above threshold
+                warning_font = pygame.font.Font(None, 64)
+                warning_text = warning_font.render("SOMETHING AWAKENS...", True, (255, 0, 0))
+                text_rect = warning_text.get_rect(center=(SCREEN_WIDTH / 2, 100))
+                screen.blit(warning_text, text_rect)
+        
+        # Warning message after Cthulhu spawns
+        elif self.survival_time >= CTHULHU_SPAWN_TIME:
+            warning_font = pygame.font.Font(None, 48)
+            warning_text = warning_font.render("CTHULHU RISES!", True, CTHULHU_COLOR)
+            text_rect = warning_text.get_rect(center=(SCREEN_WIDTH / 2, 100))
+            screen.blit(warning_text, text_rect)
         
     def get_final_message(self):
         """Return a message with final statistics"""
