@@ -2,6 +2,21 @@
 
 A classic Asteroids arcade game built with Python and Pygame.
 
+## Quick Start
+
+Get up and running in 30 seconds with uv:
+
+```bash
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone, setup, and run
+git clone https://github.com/mammykins/asteroids.git
+cd asteroids
+uv sync
+uv run main.py
+```
+
 ## Description
 
 This is a modern implementation of the classic Asteroids arcade game where you pilot a spaceship through an asteroid field. Shoot asteroids to break them into smaller pieces and survive as long as possible!
@@ -18,24 +33,64 @@ This is a modern implementation of the classic Asteroids arcade game where you p
 ## Requirements
 
 - Python 3.13 or higher
+- [uv](https://docs.astral.sh/uv/) (recommended) - Fast Python package manager
 - Pygame 2.6.1
+
+> **Why uv?** uv is 10-100x faster than pip, automatically manages Python versions and virtual environments, and provides reproducible installs with lock files.
 
 ## Installation
 
-1. Clone the repository:
+### Recommended: Using uv
 
+We **strongly recommend** using [uv](https://docs.astral.sh/uv/) for the best development experience. uv is an extremely fast Python package and project manager written in Rust, offering speeds 10-100x faster than pip.
+
+#### 1. Install uv
+
+**macOS and Linux:**
 ```bash
-git clone <repository-url>
-cd Asteroids
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-2. Install dependencies using uv (recommended) or pip:
+**Windows:**
+```powershell
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+**With pip (alternative):**
+```bash
+pip install uv
+```
+
+#### 2. Clone and Setup
 
 ```bash
-# Using uv
-uv sync
+# Clone the repository
+git clone https://github.com/mammykins/asteroids.git
+cd asteroids
 
-# Or using pip
+# Sync dependencies (creates virtual environment automatically)
+uv sync
+```
+
+That's it! `uv sync` will:
+- Create a virtual environment in `.venv` if it doesn't exist
+- Install Python 3.13 if not available
+- Install all dependencies from `pyproject.toml` and `uv.lock`
+
+### Alternative: Using pip
+
+If you prefer traditional pip:
+
+```bash
+# Clone the repository
+git clone https://github.com/mammykins/asteroids.git
+cd asteroids
+
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
 pip install pygame==2.6.1
 ```
 
@@ -94,6 +149,32 @@ These logs are useful for debugging and analyzing gameplay.
 
 ## Development
 
+### Using uv for Development
+
+uv makes development workflows faster and more efficient:
+
+```bash
+# Run the game
+uv run main.py
+
+# Run tests
+uv run pytest test_main.py
+
+# Add new dependencies
+uv add package-name
+
+# Add development dependencies
+uv add --dev pytest ruff
+
+# Update dependencies
+uv sync --upgrade
+
+# Run any Python script with uv
+uv run python -m pytest
+```
+
+### Code Architecture
+
 - Inheritance hierarchy using `CircleShape` base class
 - Sprite groups for efficient object management
 - Separation of concerns across multiple modules
@@ -101,7 +182,13 @@ These logs are useful for debugging and analyzing gameplay.
 
 ## Testing
 
-Run tests with:
+Run tests with uv (recommended):
+
+```bash
+uv run pytest test_main.py
+```
+
+Or with python directly:
 
 ```bash
 python -m pytest test_main.py
